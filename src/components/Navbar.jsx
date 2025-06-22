@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 import ProfileImage from "./ProfileImage";
 import { useSelector } from "react-redux";
@@ -11,7 +11,24 @@ const Navbar = () => {
     (state) => state?.user?.currentUser?.profilePhoto
   );
 
-  console.log("Profile Photo URL:", profilePhoto);
+  const navigate = useNavigate();
+
+  // Redirect User to Login Page if He/she has no token
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+    }
+  }, []);
+
+  // Log User out after an Hour
+
+  useEffect(() => {
+    setTimeout(() => {
+      navigate("/login");
+    }, 1000 * 60 * 60);
+  }, []);
+
+  // console.log("Profile Photo URL:", profilePhoto);
   return (
     <nav className="navbar">
       <div className="container navbar__container">
