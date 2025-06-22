@@ -21,22 +21,20 @@ const Register = () => {
       [e.target.name]: e.target.value,
     }));
   };
-  // console.log(userData);
 
   const registerUser = async (e) => {
     e.preventDefault();
 
     try {
-      await axios.post(
-        `${process.env.REACT_API_URL}/users/register`,
-        userData,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/users/register`,
+        userData
       );
-      navigate("/");
+      if (response.statusText == "OK") {
+        navigate("/login");
+      }
     } catch (err) {
-      setError(err.response?.data?.message);
+      setError(err.response.data.message);
     }
   };
 
