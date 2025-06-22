@@ -1,7 +1,11 @@
 import React from "react";
 
-const ProfileImage = () => {
-  return <div>ProfileImage</div>;
+const ProfileImage = ({ image, className }) => {
+  return (
+    <div className={`profileImage ${className}`}>
+      <img src={image} alt="" />
+    </div>
+  );
 };
 
 export default ProfileImage;
