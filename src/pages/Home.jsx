@@ -9,6 +9,7 @@ const Home = () => {
   const [error, setError] = useState("");
   const token = useSelector((state) => state?.user?.currentUser?.token);
 
+  //  FUNCTION TO CREATE POST
   const createPost = async (data) => {
     setError("");
     try {

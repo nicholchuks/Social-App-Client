@@ -10,8 +10,15 @@ const CreatePost = ({ onCreatePost, error }) => {
     (state) => state?.user?.currentUser?.profilePhoto
   );
 
+  // FUNCTION TO CREATE POST
   const createPost = (e) => {
     e.preventDefault();
+    const postData = new FormData();
+    postData.set("body", body);
+    postData.set("image", image);
+    onCreatePost(postData);
+    setBody("");
+    setImage("");
   };
   return (
     <form
@@ -35,7 +42,7 @@ const CreatePost = ({ onCreatePost, error }) => {
             <SlPicture />
           </label>
           <input
-            type="text"
+            type="file"
             id="image"
             onChange={(e) => setImage(e.target.files[0])}
           />
