@@ -5,9 +5,15 @@ import { FaRegBookmark } from "react-icons/fa";
 import { GoMail } from "react-icons/go";
 import { PiPaintBrushBold } from "react-icons/pi";
 import { useDispatch } from "react-redux";
-import { uiSliceAction } from "../store/ui-slice";
+import { uiSliceActions } from "../store/ui-slice";
 
 const Sidebar = () => {
+  const dispatch = useDispatch();
+
+  const openThemeModal = () => {
+    dispatch(uiSliceActions.openThemeModal());
+  };
+
   return (
     <menu className="sidebar">
       <NavLink
@@ -46,6 +52,7 @@ const Sidebar = () => {
       <a
         className={`sidebar__item ${({ isActive }) =>
           isActive ? "active" : ""}`}
+        onClick={openThemeModal}
       >
         <i className="sidebar__icon">
           <PiPaintBrushBold />
