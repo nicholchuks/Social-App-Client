@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import CreatePost from "../components/CreatePost";
 import axios from "axios";
+import Feeds from "../components/Feeds";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -24,9 +25,34 @@ const Home = () => {
       setError(err?.response?.data?.message);
     }
   };
+
+  // FUNCTION TO GET POSTS
+  const getPosts = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/posts`,
+
+        { withCredentials: true, headers: { Authorization: `Bearer ${token}` } }
+      );
+      setPosts(response?.data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getPosts();
+  }, [setPosts]);
+
+  console.log(posts);
+
   return (
     <section className="mainArea">
       <CreatePost onCreatePost={createPost} error={error} />
+      <Feeds posts={posts} setPosts={setPosts} />
     </section>
   );
 };
