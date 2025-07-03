@@ -10,6 +10,7 @@ import LikeDislikePost from "./LikeDislikePost";
 import { FaRegCommentDots } from "react-icons/fa";
 import { IoMdShare } from "react-icons/io";
 import TrimText from "../helpers/TrimText";
+import BookmarksPost from "./BookmarksPost";
 
 // Register the English locale globally
 TimeAgo.addDefaultLocale(en);
@@ -112,6 +113,7 @@ const Feed = ({ post }) => {
             <IoMdShare />
           </button>
         </div>
+        <BookmarksPost post={post} />
       </footer>
     </article>
   );
