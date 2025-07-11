@@ -47,12 +47,13 @@ const Home = () => {
     getPosts();
   }, [setPosts]);
 
-  console.log(posts);
+  // console.log(posts);
 
   return (
     <section className="mainArea">
       <CreatePost onCreatePost={createPost} error={error} />
       <Feeds posts={posts} setPosts={setPosts} />
+      {/* <Feeds posts={posts} onSetPosts={setPosts} /> */}
     </section>
   );
 };

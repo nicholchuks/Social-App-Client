@@ -85,7 +85,7 @@ const Feed = ({ post }) => {
         </Link>
         {showFeedHeaderMenu &&
           userId == post?.creator &&
-          location.pathname.includes("user") && (
+          location.pathname.includes("users") && (
             <menu className="feed__headermenu">
               <button onClick={showEditPostModal}>Edit</button>
               <button onClick={deletePost}>Delete</button>

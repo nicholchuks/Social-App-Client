@@ -7,7 +7,6 @@ const userSlice = createSlice({
     socket: null,
     onlineUsers: [],
   },
-  onlineUsers: [],
   reducers: {
     changeCurrentUser: (state, action) => {
       state.currentUser = action.payload;
