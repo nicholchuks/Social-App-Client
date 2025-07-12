@@ -57,7 +57,7 @@ const Feed = ({ post }) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      setCreator(response.data);
+      setCreator(response?.data);
     } catch (err) {
       console.log(err);
     }
