@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { LuUpload } from "react-icons/lu";
 import { FaCheck } from "react-icons/fa";
 import { userActions } from "../store/user-slice";
+import { uiSliceActions } from "../store/ui-slice";
 
 const UserProfile = () => {
   const token = useSelector((state) => state?.user?.currentUser?.token);
@@ -38,10 +39,6 @@ const UserProfile = () => {
     }
   };
 
-  useEffect(() => {
-    getUser();
-  }, [userId]);
-
   const changeAvatarHandler = async (e) => {
     e.preventDefault();
     setAvatarTouched(true);
@@ -67,17 +64,39 @@ const UserProfile = () => {
       console.log(error);
     }
   };
-  const openEditProfileModal = async () => {};
-  const followUnfollowUser = async () => {};
 
-  //   console.log(user);
+  //   FUNCTION TO OPEN "EDIT USER" MODAL
+  const openEditProfileModal = async () => {
+    dispatch(uiSliceActions.openEditProfileModal);
+  };
+
+  const followUnfollowUser = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/users/${userId}/follow-unfollow`,
+
+        {
+          withCredentials: true,
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setFollowUser(response?.data?.followers?.includes(loggedInUserId));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, [userId, followUser, avatar]);
+
   return (
     <section className="profile">
       <div className="profile__container">
         <form
           className="profile__image"
           onSubmit={changeAvatarHandler}
-          encType="multipart/foorm-data"
+          encType="multipart/form-data"
         >
           <img src={user?.profilePhoto} alt="" />
           {!avatarTouched ? (
@@ -112,7 +131,7 @@ const UserProfile = () => {
           </li>
           <li>
             <h4>{user?.followers?.length}</h4>
-            <small>following</small>
+            <small>followers</small>
           </li>
           <li>
             <h4>0</h4>
