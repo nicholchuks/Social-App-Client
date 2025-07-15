@@ -6,6 +6,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import Feed from "../components/Feed";
 import EditPostModal from "../components/EditPostModal";
+import EditProfileModal from "../components/EditProfileModal";
 
 const Profile = () => {
   const [user, setUser] = useState({});
@@ -16,6 +17,10 @@ const Profile = () => {
 
   const editPostModalOpen = useSelector(
     (state) => state?.ui?.editPostModalOpen
+  );
+
+  const editProfileModalOpen = useSelector(
+    (state) => state?.ui?.editProfileModalOpen
   );
 
   // GET USER POSTS
@@ -96,6 +101,7 @@ const Profile = () => {
         )}
       </section>
       {editPostModalOpen && <EditPostModal onUpdatePost={updatePost} />}
+      {editProfileModalOpen && <EditProfileModal />}
     </section>
   );
 };

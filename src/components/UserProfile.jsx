@@ -67,7 +67,7 @@ const UserProfile = () => {
 
   //   FUNCTION TO OPEN "EDIT USER" MODAL
   const openEditProfileModal = async () => {
-    dispatch(uiSliceActions.openEditProfileModal);
+    dispatch(uiSliceActions.openEditProfileModal());
   };
 
   const followUnfollowUser = async () => {

@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { uiSliceActions } from "../store/ui-slice";
 
 const EditPostModal = ({ onUpdatePost }) => {
-  const editpostId = useSelector((state) => state?.ui?.editpostId);
   const editPostId = useSelector((state) => state?.ui?.editPostId);
 
   const token = useSelector((state) => state?.user?.currentUser?.token);
