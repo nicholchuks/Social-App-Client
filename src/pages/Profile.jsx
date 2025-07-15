@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Feed from "../components/Feed";
+import EditPostModal from "../components/EditPostModal";
 
 const Profile = () => {
   const [user, setUser] = useState({});
@@ -12,6 +13,10 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { id: userId } = useParams();
   const token = useSelector((state) => state?.user?.currentUser?.token);
+
+  const editPostModalOpen = useSelector(
+    (state) => state?.ui?.editPostModalOpen
+  );
 
   // GET USER POSTS
   const getUserPosts = async () => {
@@ -36,7 +41,46 @@ const Profile = () => {
     getUserPosts();
   }, [userId]);
 
-  const deletePost = async () => {};
+  const deletePost = async (postId) => {
+    try {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_API_URL}/posts/${postId}`,
+        {
+          withCredentials: true,
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setUserPosts(userPosts?.filter((p) => p?._id != postId));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updatePost = async (data, postId) => {
+    try {
+      const response = await axios.patch(
+        `${process.env.REACT_APP_API_URL}/posts/${postId}`,
+        data,
+        {
+          withCredentials: true,
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (response?.status == 200) {
+        const updatedPost = response?.data;
+        setUserPosts(
+          userPosts?.map((post) => {
+            if (updatedPost?._id.toString() == post?._id.toString()) {
+              post.body = updatedPost.body;
+            }
+            return post;
+          })
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <section>
@@ -51,6 +95,7 @@ const Profile = () => {
           ))
         )}
       </section>
+      {editPostModalOpen && <EditPostModal onUpdatePost={updatePost} />}
     </section>
   );
 };

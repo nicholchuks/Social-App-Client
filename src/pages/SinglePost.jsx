@@ -4,8 +4,6 @@ import ProfileImage from "../components/ProfileImage";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import ReactTimeAgo from "react-time-ago";
-import TimeAgo from "javascript-time-ago";
-import en from "javascript-time-ago/locale/en";
 import LikeDislikePost from "../components/LikeDislikePost";
 import { FaRegCommentDots } from "react-icons/fa";
 import { IoMdShare } from "react-icons/io";

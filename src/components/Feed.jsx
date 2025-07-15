@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import ProfileImage from "./ProfileImage";
 import ReactTimeAgo from "react-time-ago";
@@ -9,43 +9,22 @@ import axios from "axios";
 import LikeDislikePost from "./LikeDislikePost";
 import { FaRegCommentDots } from "react-icons/fa";
 import { IoMdShare } from "react-icons/io";
+import { HiDotsHorizontal } from "react-icons/hi";
 import TrimText from "../helpers/TrimText";
 import BookmarksPost from "./BookmarksPost";
+import { uiSliceActions } from "../store/ui-slice";
 
 // Register the English locale globally
 TimeAgo.addDefaultLocale(en);
 
-const Feed = ({ post }) => {
+const Feed = ({ post, onDeletePost }) => {
   const [creator, setCreator] = useState({});
-  const [showFeedHeaderMenu, setShowFeedHeaderMenu] = useState(false);
   const token = useSelector((state) => state?.user?.currentUser?.token);
   const userId = useSelector((state) => state?.user?.currentUser?.id);
+  const [showFeedHeaderMenu, setShowFeedHeaderMenu] = useState(false);
+  const dispatch = useDispatch();
 
   const location = useLocation();
-
-  const showEditPostModal = () => {
-    // Example: open edit modal with post ID
-    // console.log("Edit post:", post._id);
-  };
-
-  const deletePost = async () => {
-    try {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete this post?"
-      );
-      if (!confirmDelete) return;
-
-      await axios.delete(`${process.env.REACT_APP_API_URL}/posts/${post._id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-        withCredentials: true,
-      });
-
-      console.log("Post deleted");
-      // Optionally refetch posts or notify parent
-    } catch (err) {
-      console.error("Error deleting post", err);
-    }
-  };
 
   // GET POST CREATOR
   const getPostCreator = async () => {
@@ -67,6 +46,20 @@ const Feed = ({ post }) => {
     getPostCreator();
   }, []);
 
+  const closeFeedHeaderMenu = () => {
+    setShowFeedHeaderMenu(false);
+  };
+
+  const showEditPostModal = () => {
+    dispatch(uiSliceActions?.openEditPostModal(post?._id));
+    closeFeedHeaderMenu();
+  };
+
+  const deletePost = async () => {
+    onDeletePost(post?._id);
+    closeFeedHeaderMenu();
+  };
+
   return (
     <article className="feed">
       <header className="feed__header">
@@ -83,15 +76,22 @@ const Feed = ({ post }) => {
             </small>
           </div>
         </Link>
+
         {showFeedHeaderMenu &&
           userId == post?.creator &&
           location.pathname.includes("users") && (
-            <menu className="feed__headermenu">
+            <menu className="feed__header-menu">
               <button onClick={showEditPostModal}>Edit</button>
               <button onClick={deletePost}>Delete</button>
             </menu>
           )}
+        {userId == post?.creator && location.pathname.includes("users") && (
+          <button onClick={() => setShowFeedHeaderMenu(!showFeedHeaderMenu)}>
+            <HiDotsHorizontal />
+          </button>
+        )}
       </header>
+
       <Link to={`posts/${post?._id}`} className="feed__body">
         <p>
           <TrimText item={post?.body} maxlength={160} />

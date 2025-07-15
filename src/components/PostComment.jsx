@@ -10,7 +10,8 @@ import { FaRegTrashAlt } from "react-icons/fa";
 
 const PostComment = ({ comment, onDeleteComment }) => {
   const token = useSelector((state) => state?.user?.currentUser?.token);
-  const userId = useSelector((state) => state?.user?.currentUser?.userId);
+  // const userId = useSelector((state) => state?.user?.currentUser?.userId);
+  const userId = useSelector((state) => state?.user?.currentUser?.id);
 
   const deleteComment = () => {
     onDeleteComment(comment?._id);
@@ -40,8 +41,7 @@ const PostComment = ({ comment, onDeleteComment }) => {
         </div>
       </div>
 
-      {/* {userId == comment?.creator?.creatorId?.toString() && ( */}
-      {userId === comment?.creator?.creatorId && (
+      {userId == comment?.creator?.creatorId && (
         <button
           className="singlePost__comment-delete-btn"
           onClick={deleteComment}
