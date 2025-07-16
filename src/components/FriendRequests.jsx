@@ -50,7 +50,7 @@ const FriendRequests = () => {
         <FriendRequest
           key={friend?._id}
           friend={friend}
-          onFillterFriend={closeFriendBadge}
+          onFilterFriend={closeFriendBadge}
         />
       ))}
     </menu>

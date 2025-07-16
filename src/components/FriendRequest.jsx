@@ -3,9 +3,27 @@ import { Link } from "react-router-dom";
 import ProfileImage from "./ProfileImage";
 import { useSelector } from "react-redux";
 import TrimText from "../helpers/TrimText";
+import { FaCheck } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
+import axios from "axios";
 
 const FriendRequest = ({ onFilterFriend, friend }) => {
   const token = useSelector((state) => state?.user?.currentUser?.token);
+
+  const followUser = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/users/${friend?._id}/follow-unfollow`,
+        {
+          withCredentials: true,
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      onFilterFriend(friend?._id); //close friend badge
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <article className="friendRequest">
@@ -21,6 +39,17 @@ const FriendRequest = ({ onFilterFriend, friend }) => {
             <TrimText item={friend?.email} maxlength={20} />
           </small>
         </div>
+      </div>
+      <div className="friendRequest__actions">
+        <button className="friendRequest__actions-approve" onClick={followUser}>
+          <FaCheck />
+        </button>
+        <button
+          className="friendRequest__actions-approve"
+          onClick={() => onFilterFriend(friend?._id)}
+        >
+          <IoMdClose />
+        </button>
       </div>
     </article>
   );
