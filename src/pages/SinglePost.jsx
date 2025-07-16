@@ -32,7 +32,9 @@ const SinglePost = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+      // setPost(response?.data);
       setPost(response?.data);
+      setComments(response?.data?.comments || []);
     } catch (err) {
       console.log(err);
     }
@@ -73,10 +75,15 @@ const SinglePost = () => {
     }
   };
 
+  // useEffect(() => {
+  //   getPost();
+  // }, [deleteComment]);
+
   useEffect(() => {
     getPost();
-  }, [deleteComment]);
+  }, [id]); // ✅ Good
 
+  console.log(comments);
   return (
     <section className="singlePost">
       <header className="feed__header">
@@ -131,6 +138,13 @@ const SinglePost = () => {
             onDeleteComment={deleteComment}
           />
         ))}
+        {/* {comments.map((comment) => (
+          <PostComment
+            key={comment._id}
+            comment={comment}
+            onDeleteComment={deleteComment}
+          />
+        ))} */}
       </ul>
     </section>
   );

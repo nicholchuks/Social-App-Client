@@ -1,8 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import ReactTimeAgo from "react-time-ago";
-import TimeAgo from "javascript-time-ago";
-import en from "javascript-time-ago/locale/en";
 import { FaRegTrashAlt } from "react-icons/fa";
 
 // Register the English locale globally
@@ -10,7 +8,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 
 const PostComment = ({ comment, onDeleteComment }) => {
   const token = useSelector((state) => state?.user?.currentUser?.token);
-  // const userId = useSelector((state) => state?.user?.currentUser?.userId);
+
   const userId = useSelector((state) => state?.user?.currentUser?.id);
 
   const deleteComment = () => {
@@ -40,15 +38,16 @@ const PostComment = ({ comment, onDeleteComment }) => {
           <p>{comment?.comment}</p>
         </div>
       </div>
-
-      {userId == comment?.creator?.creatorId && (
-        <button
-          className="singlePost__comment-delete-btn"
-          onClick={deleteComment}
-        >
-          <FaRegTrashAlt />
-        </button>
-      )}
+      {/* userId == comment?.creator?.creatorId && */}
+      {userId == comment?.creator?._id ||
+        (userId == comment?.creator?.creatorId && (
+          <button
+            className="singlePost__comment-delete-btn"
+            onClick={deleteComment}
+          >
+            <FaRegTrashAlt />
+          </button>
+        ))}
     </li>
   );
 };
