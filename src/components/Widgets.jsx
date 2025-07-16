@@ -1,7 +1,12 @@
 import React from "react";
+import FriendRequests from "./FriendRequests";
 
 const Widgets = () => {
-  return <div>Widgets</div>;
+  return (
+    <section className="widgets">
+      <FriendRequests />
+    </section>
+  );
 };
 
 export default Widgets;
