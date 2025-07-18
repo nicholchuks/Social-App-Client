@@ -41,7 +41,6 @@ const Navbar = () => {
   }, []);
 
   // Log User out after an Hour
-
   useEffect(() => {
     setTimeout(() => {
       navigate("/login");

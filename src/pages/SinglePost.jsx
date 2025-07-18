@@ -32,7 +32,7 @@ const SinglePost = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      // setPost(response?.data);
+
       setPost(response?.data);
       setComments(response?.data?.comments || []);
     } catch (err) {
@@ -58,7 +58,6 @@ const SinglePost = () => {
 
   // FUNCTION TO CREATE COMMENT
   const createComment = async () => {
-    // e.preventDefault();
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/comments/${id}`,
@@ -131,20 +130,20 @@ const SinglePost = () => {
             <IoMdSend />
           </button>
         </form>
-        {post?.comments?.map((comment) => (
-          <PostComment
-            key={comment._id}
-            comment={comment}
-            onDeleteComment={deleteComment}
-          />
-        ))}
-        {/* {comments.map((comment) => (
+        {/* {post?.comments?.map((comment) => (
           <PostComment
             key={comment._id}
             comment={comment}
             onDeleteComment={deleteComment}
           />
         ))} */}
+        {comments.map((comment) => (
+          <PostComment
+            key={comment._id}
+            comment={comment}
+            onDeleteComment={deleteComment}
+          />
+        ))}
       </ul>
     </section>
   );

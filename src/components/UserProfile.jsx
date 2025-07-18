@@ -149,7 +149,7 @@ const UserProfile = () => {
             </button>
           )}
           {user?._id != loggedInUserId && (
-            <Link to={`/messages/${user?._id}`} className="btn">
+            <Link to={`/messages/${user?._id}`} className="btn default">
               Message
             </Link>
           )}

@@ -3,9 +3,6 @@ import { useSelector } from "react-redux";
 import ReactTimeAgo from "react-time-ago";
 import { FaRegTrashAlt } from "react-icons/fa";
 
-// Register the English locale globally
-// TimeAgo.addDefaultLocale(en);
-
 const PostComment = ({ comment, onDeleteComment }) => {
   const token = useSelector((state) => state?.user?.currentUser?.token);
 

@@ -4,7 +4,7 @@ const FeedSkeleton = () => {
   return (
     <section className="FeedSkeleton">
       <article className="feedSkeleton__item">
-        <header className="feedSkeleton__itemhead">
+        <header className="feedSkeleton__item-head">
           <div></div>
         </header>
         <div className="feedSkeleton__item-body"></div>
